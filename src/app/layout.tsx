@@ -27,11 +27,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-muted/50`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers cookie={(await headers()).get("cookie") || ""}>
           {children}
         </Providers>
+        <footer className="py-6 text-center text-muted-foreground">
+          <p>
+            &copy; {new Date().getFullYear()} Liteflow. All rights reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );
