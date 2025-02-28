@@ -1,49 +1,186 @@
+"use client";
+import ActiveStage from "@/components/active-stage";
+import DiscordIcon from "@/components/icons/discord";
+import XformerlyTwitterIcon from "@/components/icons/x";
+import MintStage from "@/components/mint-stage";
+import MintStageSkeleton from "@/components/mint-stage-skeleton";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useCollection from "@/hooks/useCollection";
+import useDrops from "@/hooks/useDrops";
+import { ExternalLinkIcon, LinkIcon, Loader2Icon } from "lucide-react";
+import Image from "next/image";
+import { useMemo } from "react";
+import { useAccount, useClient } from "wagmi";
 
-export default function Home() {
+export default function Drop() {
+  const chainId = process.env.NEXT_PUBLIC_COLLECTION_CHAIN
+    ? parseInt(process.env.NEXT_PUBLIC_COLLECTION_CHAIN, 10)
+    : null;
+  const address = process.env.NEXT_PUBLIC_COLLECTION_ADDRESS ?? "";
+  if (!chainId) throw new Error("Missing collection chain ID");
+  if (!address) throw new Error("Missing collection address");
+  const account = useAccount();
+  const collection = useCollection(chainId, address);
+  const drops = useDrops(chainId, address, account.address);
+  const client = useClient({ chainId });
+  const chain = useMemo(() => (client ? client.chain : null), [client]);
+  const currentDrop = useMemo(() => {
+    if (!drops.data) return null;
+    const live = drops.data.data.find((drop) => drop.status === "LIVE");
+    if (live) return live;
+    return drops.data.data[drops.data.data.length - 1];
+  }, [drops.data]);
+
+  if (collection.error) throw new Error(collection.error.message);
+  if (collection.isLoading)
+    return (
+      <div className="flex h-screen w-full justify-center items-center">
+        <Loader2Icon className="size-10 animate-spin" />
+      </div>
+    );
+  if (!collection.data) return <div>Collection not found</div>;
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center flex flex-col items-center space-y-8">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 500 500"
-            className="size-40"
-          >
-            <path
-              fill="#02b14f"
-              d="M326.62,112.66c-2.17-7.23-5.7-13.95-10.74-18.64-73.62,73.74-147.71,147.93-221,221.33,25.07,.02,56.28,.02,75.21-.09,45.69-45.48,95.78-95.19,141.31-140.77,17.52-17.53,22.27-38.34,15.23-61.84Z"
-            />
-            <path
-              fill="#02b14f"
-              d="M321.88,350.13c-3.49-11.53-10.62-20.53-19.19-28.67-3.16-3-6.49-6.25-6.49-6.25,0,0,3.45-3.43,6.6-6.57,6.21-6.21,12.25-12.6,18.66-18.59,16.14-15.09,22.83-33.49,19.43-55.29-1.64-10.47-6.06-19.83-12.71-27.01-36.5,36.48-72.51,72.46-108,107.91,29.38,29.47,59.45,59.64,89.73,90.01,13.54-15.84,17.9-35.97,11.99-55.52Z"
-            />
-            <path fill="#02b14f" d="M309.9,405.65c-.66,.9,.48-.42,0,0h0Z" />
-          </svg>
-          <h1 className="text-4xl font-extrabold sm:text-5xl md:text-6xl">
-            Build Something Amazing
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Empower your projects with Liteflow’s all-in-one tools for NFTs,
-            tokens, and PointFi. Launch NFT drops and marketplaces, create and
-            manage tokens, and engage your community with quests and staking.
-            Start building impactful solutions today.
-          </p>
-
-          <Button
-            size="lg"
-            variant="outline"
-            className="w-full sm:w-auto"
-            asChild
-          >
-            <ConnectButton />
-          </Button>
+    <>
+      <div className="relative">
+        <div className="absolute inset-0 -z-20 overflow-hidden">
+          <div className="relative h-full flex items-center">
+            {collection.data.image && (
+              <Image
+                src={collection.data.image}
+                alt={collection.data.name}
+                width={1000}
+                height={1000}
+                className="min-w-full min-h-full object-cover blur-3xl opacity-10"
+              />
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="py-6 text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Liteflow. All rights reserved.</p>
-      </footer>
-    </div>
+
+        <div className="container mx-auto py-12">
+          <header className="p-4 flex items-center gap-4">
+            <h1 className="text-4xl font-semibold">{collection.data.name}</h1>
+            {chain && <Badge variant="secondary">{chain?.name}</Badge>}
+          </header>
+
+          <main className="container mx-auto p-4 grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-24">
+            <Card className="aspect-square overflow-hidden">
+              {collection.data.image && (
+                <Image
+                  src={collection.data.image || ""}
+                  alt={collection.data.name}
+                  width={800}
+                  height={800}
+                  className="object-cover"
+                />
+              )}
+            </Card>
+
+            <div className="space-y-6">
+              <Card className="bg-card/50">
+                <CardHeader>
+                  <CardTitle>Mint Stages</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {drops.isLoading && !drops.isFetched && <MintStageSkeleton />}
+                  {drops.error && <div>Error: {drops.error.message}</div>}
+                  {(drops.data?.data || []).map((drop) => (
+                    <MintStage
+                      key={drop.id}
+                      drop={drop}
+                      selected={drop === currentDrop}
+                    />
+                  ))}
+                </CardContent>
+                {currentDrop && (
+                  <>
+                    <Separator />
+                    <div className="p-6">
+                      {currentDrop && <ActiveStage drop={currentDrop} />}
+                    </div>
+                  </>
+                )}
+              </Card>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <Separator />
+
+      <div className="container mx-auto p-4 mt-8">
+        <Tabs defaultValue="overview">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="team">Team</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview" className="mt-4 space-y-4">
+            <h2 className="text-2xl font-bold">{collection.data.name}</h2>
+            <nav className="flex gap-2">
+              {chain && (
+                <Button variant="outline" asChild>
+                  <a
+                    href={`${chain.blockExplorers?.default.url}/address/${collection.data.address}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-2 items-center"
+                  >
+                    <ExternalLinkIcon className="h-4 w-4" />
+                    Contract {collection.data.address.slice(0, 6)}...
+                    {collection.data.address.slice(-4)}
+                  </a>
+                </Button>
+              )}
+              {collection.data.website && (
+                <Button variant="outline" size="icon" asChild>
+                  <a
+                    href={collection.data.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-2"
+                  >
+                    <LinkIcon className="h-4 w-4" />
+                  </a>
+                </Button>
+              )}
+              {collection.data.twitter && (
+                <Button variant="outline" size="icon" asChild>
+                  <a
+                    href={collection.data.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-2"
+                  >
+                    <XformerlyTwitterIcon className="h-4 w-4" />
+                  </a>
+                </Button>
+              )}
+              {collection.data.discord && (
+                <Button variant="outline" size="icon" asChild>
+                  <a
+                    href={collection.data.discord}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-2"
+                  >
+                    <DiscordIcon className="h-4 w-4" />
+                  </a>
+                </Button>
+              )}
+            </nav>
+            <p className="text-sm text-muted-foreground">
+              {collection.data.description}
+            </p>
+          </TabsContent>
+          <TabsContent value="team" className="mt-4">
+            <div className="text-sm">Team information would go here.</div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </>
   );
 }

@@ -1,0 +1,30 @@
+"use client";
+import { Progress } from "@/components/ui/progress";
+import { GetDropsResponse } from "@liteflow/sdk/dist/client";
+import { useMemo } from "react";
+
+export default function MintProgress({
+  drop,
+}: {
+  drop: GetDropsResponse["data"][number];
+}) {
+  const progress = useMemo(() => {
+    if (!drop.supply) return 0;
+    return (parseInt(drop.supplyMinted) / drop.supply) * 100;
+  }, [drop.supply, drop.supplyMinted]);
+  return (
+    <div className="space-y-2 w-full">
+      <div className="flex justify-between text-sm">
+        <span>Total Minted</span>
+        {drop.supply ? (
+          <span>
+            {progress.toFixed(2)}% ({drop.supplyMinted || 0} / {drop.supply})
+          </span>
+        ) : (
+          <span>{drop.supplyMinted || 0}</span>
+        )}
+      </div>
+      {drop.supply && <Progress value={progress} className="h-1" />}
+    </div>
+  );
+}
