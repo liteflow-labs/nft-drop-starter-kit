@@ -19,7 +19,7 @@ export function Navbar() {
 
   return (
     <nav className="w-full max-w-4xl mx-auto px-4 py-4 fixed z-40 top-0 left-0 right-0">
-      <div className="flex items-center justify-between bg-black rounded-md p-2 backdrop-blur-sm border">
+      <div className="flex items-center justify-between bg-muted dark:bg-black rounded-md p-2 backdrop-blur-sm border">
         <Link href="https://www.aidenlabs.ai/" className="flex items-center">
           <Image
             src="/logo.avif"
@@ -68,7 +68,7 @@ export function Navbar() {
       {/* Mobile menu - Extension of current menu */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-0 left-0 right-0 p-4 z-50">
-          <div className="bg-black border rounded-md shadow-lg p-2 max-w-4xl mx-auto">
+          <div className="bg-muted dark:bg-black border rounded-md shadow-lg p-2 max-w-4xl mx-auto">
             <div className="flex items-center justify-between pb-2 mb-2">
               <Link
                 href="https://www.aidenlabs.ai/"
