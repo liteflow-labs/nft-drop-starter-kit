@@ -16,7 +16,13 @@ export function Navbar() {
     <nav className="w-full max-w-4xl mx-auto px-4 py-4 fixed z-40 top-0 left-0 right-0">
       <div className="flex items-center justify-between bg-black rounded-md p-2 backdrop-blur-sm border">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.avif" alt="Aiden" width={95} height={38} />
+          <Image
+            src="/logo.avif"
+            alt="Aiden"
+            width={512}
+            height={137}
+            className="h-7 w-auto"
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-2">
