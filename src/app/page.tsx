@@ -116,7 +116,6 @@ export default function Drop() {
         <Tabs defaultValue="overview">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="team">Team</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="mt-4 space-y-4">
             <h2 className="text-2xl font-bold">{collection.data.name}</h2>
@@ -175,9 +174,6 @@ export default function Drop() {
             <p className="text-sm text-muted-foreground">
               {collection.data.description}
             </p>
-          </TabsContent>
-          <TabsContent value="team" className="mt-4">
-            <div className="text-sm">Team information would go here.</div>
           </TabsContent>
         </Tabs>
       </div>
