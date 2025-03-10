@@ -60,7 +60,7 @@ export function Navbar() {
             variant="ghost"
             size="icon"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <Menu size={24} />
           </Button>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden absolute top-0 left-0 right-0 p-4 z-50">
           <div className="bg-black border rounded-md shadow-lg p-2 max-w-4xl mx-auto">
-            <div className="flex items-center justify-between border-b border pb-2 mb-2">
+            <div className="flex items-center justify-between pb-2 mb-2">
               <Link
                 href="https://www.aidenlabs.ai/"
                 className="flex items-center"
