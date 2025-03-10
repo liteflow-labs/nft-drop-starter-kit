@@ -85,7 +85,7 @@ export default function Drop() {
             </Card>
 
             <div className="space-y-6">
-              <Card className="bg-card/50 border-0 md:border">
+              <Card className="bg-transparent shadow-none md:shadow md:bg-card/50 border-0 md:border">
                 <CardHeader className="px-0 md:px-6">
                   <CardTitle>Mint Stages</CardTitle>
                 </CardHeader>
