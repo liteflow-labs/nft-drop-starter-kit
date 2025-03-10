@@ -61,7 +61,7 @@ export default function Drop() {
           </div>
         </div>
 
-        <div className="container mx-auto py-12">
+        <div className="container mx-auto py-28">
           <header className="p-4 flex items-center gap-4">
             <h1 className="text-4xl font-semibold">{collection.data.name}</h1>
             {chain && <Badge variant="secondary">{chain?.name}</Badge>}

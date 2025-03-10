@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/navbar";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Kit",
-  description: "Starter kit for a Liteflow application",
+  title: "Aiden Labs NFT Drop",
+  description: "NFT Drop powered by Aiden Labs",
 };
 
 export default async function RootLayout({
@@ -30,6 +31,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
       >
         <Providers cookie={(await headers()).get("cookie") || ""}>
+          <Navbar />
           {children}
         </Providers>
         <footer className="py-6 text-center text-muted-foreground">
