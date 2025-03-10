@@ -62,9 +62,13 @@ export default function Drop() {
         </div>
 
         <div className="container mx-auto py-12">
-          <header className="p-4 flex items-center gap-4">
+          <header className="p-4 flex flex-col md:flex-row md:items-center gap-4">
             <h1 className="text-4xl font-semibold">{collection.data.name}</h1>
-            {chain && <Badge variant="secondary">{chain?.name}</Badge>}
+            {chain && (
+              <span>
+                <Badge variant="secondary">{chain?.name}</Badge>
+              </span>
+            )}
           </header>
 
           <main className="container mx-auto p-4 grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-24">
@@ -81,11 +85,11 @@ export default function Drop() {
             </Card>
 
             <div className="space-y-6">
-              <Card className="bg-card/50">
-                <CardHeader>
+              <Card className="bg-card/50 border-0 md:border">
+                <CardHeader className="px-0 md:px-6">
                   <CardTitle>Mint Stages</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 px-0 md:px-6">
                   {drops.isLoading && !drops.isFetched && <MintStageSkeleton />}
                   {drops.error && <div>Error: {drops.error.message}</div>}
                   {(drops.data?.data || []).map((drop) => (
@@ -99,7 +103,7 @@ export default function Drop() {
                 {currentDrop && (
                   <>
                     <Separator />
-                    <div className="p-6">
+                    <div className="py-6 md:px-6">
                       {currentDrop && <ActiveStage drop={currentDrop} />}
                     </div>
                   </>
