@@ -13,7 +13,7 @@ const navItems = [
 
 export function Navbar() {
   return (
-    <nav className="w-full max-w-5xl mx-auto px-4 py-6 fixed inset-0 z-40">
+    <nav className="w-full max-w-5xl mx-auto px-4 py-6 fixed z-40 top-0 left-0 right-0">
       <div className="flex items-center justify-between bg-black rounded-md p-2 backdrop-blur-sm border">
         <Link href="/" className="flex items-center">
           <Image src="/logo.avif" alt="Aiden" width={95} height={38} />
