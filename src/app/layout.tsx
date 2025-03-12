@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Kit",
-  description: "Starter kit for a Liteflow application",
+  title: "NFT Drop Starter Kit",
+  description: "NFT Drop Starter kit for a Liteflow application",
 };
 
 export default async function RootLayout({
