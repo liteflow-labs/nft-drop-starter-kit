@@ -18,7 +18,7 @@ interface NumberInputProps {
 export default function NumberInput({
   value = 0,
   min = 0,
-  max = 100,
+  max = Infinity,
   step = 1,
   onChange,
   className,

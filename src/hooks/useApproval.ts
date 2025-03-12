@@ -47,7 +47,7 @@ export default function useApproval({
 
   const requireAllowance = useMemo(() => {
     if (token === null) return false;
-    if (!allowance?.result) return true;
+    if (allowance?.result === undefined) return true;
     return allowance.result < amount;
   }, [token, allowance, amount]);
   const client = useClient({ chainId });

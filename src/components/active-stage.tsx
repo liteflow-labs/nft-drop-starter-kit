@@ -73,7 +73,7 @@ export default function ActiveStage({
           value={quantity}
           onChange={setQuantity}
           min={1}
-          max={drop.limitPerWallet || undefined}
+          max={drop.limitPerWallet || drop.supply || undefined}
           step={1}
         />
       </CardContent>
