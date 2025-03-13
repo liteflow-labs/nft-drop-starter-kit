@@ -176,7 +176,7 @@ export default function Drop() {
                 </Button>
               )}
             </nav>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground whitespace-pre-line">
               {collection.data.description}
             </p>
           </TabsContent>
