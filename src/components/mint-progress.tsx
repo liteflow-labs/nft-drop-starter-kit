@@ -13,7 +13,7 @@ export default function MintProgress({
     return (parseInt(drop.supplyMinted) / drop.supply) * 100;
   }, [drop.supply, drop.supplyMinted]);
   return (
-    <div className="space-y-2 w-full">
+    <div className="w-full space-y-2">
       <div className="flex justify-between text-sm">
         <span>Total Minted</span>
         {drop.supply ? (

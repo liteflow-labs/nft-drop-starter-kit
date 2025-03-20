@@ -88,7 +88,7 @@ NEXT_PUBLIC_ARBITRUM_SEPOLIA_PROVIDER_URL=
 
 - **Frontend Framework:** [Next.js](https://nextjs.org/) with TypeScript
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/) with [shadcn/ui](https://ui.shadcn.com/) components
-- **Web3 Integration:** 
+- **Web3 Integration:**
   - [Wagmi](https://wagmi.sh/) for React hooks for Ethereum
   - [RainbowKit](https://www.rainbowkit.com/) for wallet connection
 - **NFT Management:** [Liteflow SDK](https://docs.liteflow.com/) for drop management and NFT operations
